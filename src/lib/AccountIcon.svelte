@@ -20,7 +20,7 @@
   }
 </script>
 
-<div class={current}>
+<main class={current}>
   {#if loggedin}
     <img src="/UTSA-Roadrunners-Logo.png" alt="Account icon" width="32" height="32"/>
     {username}
@@ -28,7 +28,7 @@
     Login/SignUp
   {/if}
   
-</div>
+</main>
 
 <style>
   * {

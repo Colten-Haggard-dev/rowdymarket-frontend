@@ -8,6 +8,9 @@
   $: bclasses = [inactive, inactive, inactive, inactive]
 
   let account_icon: AccountIcon
+  
+  let curr_comp: any = null
+  $: curr_comp
 
   function update_classes(idx: number): void {
     for (let index = 0; index < bclasses.length; index++) {
@@ -21,9 +24,11 @@
     switch (str) {
       case "home":
         update_classes(0)
+        curr_comp = Counter
         break;
       case "news":
         update_classes(1)
+        curr_comp = AccountIcon
         break;
       case "contact":
         update_classes(2)
@@ -48,7 +53,7 @@
   </div>
 
   <div class="card">
-    <Counter />
+    <svelte:component this={curr_comp}> </svelte:component>
   </div>
 
   <p class="checkout">
@@ -82,6 +87,12 @@
 
   /* Change the color of links on hover */
   .topnav a:hover {
+    background-color: #D3430D;
+    color: #0C2340;
+  }
+
+  /* Add a color to the active/current link */
+  .topnav a.active {
     background-color: #F15A22;
     color: #0C2340;
   }
@@ -92,11 +103,5 @@
     bottom: 0;
     left: 0;
     right: 0;
-  }
-
-  /* Add a color to the active/current link */
-  .topnav a.active {
-    background-color: #F15A22;
-    color: white;
   }
 </style>
