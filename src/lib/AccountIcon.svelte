@@ -25,7 +25,7 @@
     <img src="/UTSA-Roadrunners-Logo.png" alt="Account icon" width="32" height="32"/>
     {username}
   {:else}
-    Login/SignUp
+    <a class={current} on:click={() => logIn("Rowdy")} href="#signup">Login/SignUp</a>
   {/if}
   
 </main>

@@ -49,7 +49,7 @@
     <a class={bclasses[1]} on:click={() => update_nav("news")} href="#news">News</a>
     <a class={bclasses[2]} on:click={() => update_nav("contact")} href="#contact">Contact</a>
     <a class={bclasses[3]} on:click={() => update_nav("about")} href="#about">About</a>
-    <a style="float: right;" on:click={() => account_icon.logIn("Rowdy")} on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="#signup"> <AccountIcon bind:this={account_icon} /> </a>
+    <a style="float: right;" on:click={() => account_icon.logIn("Rowdy")} on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="#signup"> <AccountIcon bind:this={account_icon}/> </a>
   </div>
 
   <div class="card">
