@@ -36,6 +36,10 @@
     float: left;
   }
 
+  a:hover {
+    color: #0C2340;
+  }
+
   /* Change the color of links on hover */
   .active {
     color: #0C2340;
