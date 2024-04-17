@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Import libaries
+  // Import libraries
   import { onMount } from 'svelte';
 
   // Global variables set to be used throughout User Settings
@@ -12,19 +12,24 @@
   // Function to fetch User Settings by looking through MySQL and retrieving the entry of the current User settings
   async function fetchUserSettings() {
     isLoading = true;
+    errorMessage = '';
     try {
-      const response = await fetch('/api/user/settings'); // replace with actual api from MySQL (Alfonso)
+      const response = await fetch('/api/user/settings', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       if (!response.ok) {
-        throw new Error('Failed to fetch settings');
+        throw new Error(`Failed to fetch settings: ${response.status} ${response.statusText}`);
       }
       const data = await response.json();
       displayName = data.displayName;
       email = data.email;
-      isLoading = false;
     } catch (error) {
-      errorMessage = 'Failed to load settings: ' + error.message;
-      isLoading = false;
+      errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     }
+    isLoading = false;
   }
 
   // Function to commit changes to update the User Settings
@@ -32,19 +37,25 @@
     isLoading = true;
     errorMessage = '';
     try {
-      const response = await fetch('/api/user/settings', { //replace with actual api from MySQL (Alfonso)
+      const response = await fetch('/api/user/settings', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ displayName, email, password: password || undefined })
+        body: JSON.stringify({
+          displayName,
+          email,
+          password: password ? password : undefined
+        })
       });
       if (!response.ok) {
-        throw new Error('Failed to update settings');
+        throw new Error(`Failed to update settings: ${response.status} ${response.statusText}`);
       }
+      await response.json();
       alert('Settings updated successfully!');
+      password = '';  // Clear password after successful update
     } catch (error) {
-      errorMessage = 'Failed to update settings: ' + error.message;
+      errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     }
     isLoading = false;
   };
@@ -54,6 +65,7 @@
   });
 </script>
 
+// GUI formatting/code for front end
 <style>
   .settings-container {
     display: flex;
@@ -87,7 +99,7 @@
     <input type="email" id="email" bind:value={email}>
   </div>
   <div class="input-group">
-    <label for="password">New Password (leave blank to keep current):</label>
+    <label for="password">New Password (optional):</label>
     <input type="password" id="password" bind:value={password}>
   </div>
   {#if errorMessage}
