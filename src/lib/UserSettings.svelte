@@ -22,7 +22,13 @@
       email = data.email;
       isLoading = false;
     } catch (error) {
-      errorMessage = 'Failed to load settings: ' + error.message;
+      errorMessage = 'Failed to load settings: ';
+      
+      if (error instanceof Error)
+        errorMessage += error.message
+      else
+        errorMessage += 'Unknown Error'
+
       isLoading = false;
     }
   }
@@ -44,7 +50,11 @@
       }
       alert('Settings updated successfully!');
     } catch (error) {
-      errorMessage = 'Failed to update settings: ' + error.message;
+      errorMessage = 'Failed to update settings: ';
+      if (error instanceof Error)
+        errorMessage += error.message
+      else
+        errorMessage += 'Unknown Error'
     }
     isLoading = false;
   };

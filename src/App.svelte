@@ -58,10 +58,6 @@
   <div class="card">
     <svelte:component this={curr_comp}> </svelte:component>
   </div>
-
-  <p class="footer">
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
 </main>
 
 <style>
@@ -105,13 +101,5 @@
     right: 0;
     top: 0;
     bottom: 0;
-  }
-
-  .footer {
-    color: #F15A22;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
   }
 </style>
