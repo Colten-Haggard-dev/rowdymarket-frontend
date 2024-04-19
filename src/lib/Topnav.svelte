@@ -4,7 +4,7 @@
     const active = "active"
     const inactive = "inactive"
   
-    $: bclasses = [inactive, inactive, inactive, inactive]
+    let bclasses = [inactive, inactive, inactive, inactive]
 
     if (document.URL.endsWith("browse"))
     {
@@ -20,15 +20,27 @@
     }
   
     let account_icon: AccountIcon
+    let isLoggedIn: boolean = false
+
+    function logIn()
+    {
+        isLoggedIn = account_icon.isLoggedIn()
+        account_icon.logIn("Rowdy")
+    }
   </script>
   
   <main>
     <div class="topnav">
       <a class={bclasses[0]} href="/browse">Browse</a>
       <!-- <a class={bclasses[1]} on:click={() => update_nav("news")} href="#news">News</a> -->
-      <a class={bclasses[1]} href="/">Contact</a>
-      <a class={bclasses[2]} href="/">About</a>
-      <a style="float: right;" on:click={() => account_icon.logIn("Rowdy")} on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="#signup"> <AccountIcon bind:this={account_icon}/> </a>
+      <a class={bclasses[1]} href="/contact">Contact</a>
+      <a class={bclasses[2]} href="/about">About</a>
+
+      {#if isLoggedIn}
+        <a style="float: right;" on:click={() => logIn()} on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="/user"> <AccountIcon bind:this={account_icon}/> </a>
+      {:else}
+        <a style="float: right;" on:click={() => logIn()} on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="/login"> <AccountIcon bind:this={account_icon}/> </a>
+      {/if}
     </div>
   </main>
   
@@ -66,13 +78,6 @@
     .topnav a.active {
       background-color: #F15A22;
       color: #0C2340;
-    }
-  
-    .card {
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
     }
   </style>
   

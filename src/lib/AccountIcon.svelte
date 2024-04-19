@@ -8,6 +8,11 @@
   $: loggedin = false
   $: username = ""
 
+  export function isLoggedIn(): boolean
+  {
+    return loggedin
+  }
+
   export function logIn(uname: string): void {
     loggedin = true
     username = uname
@@ -25,9 +30,9 @@
 <main class={current}>
   {#if loggedin}
     <img src="/UTSA-Roadrunners-Logo.png" alt="Account icon" width="32" height="32"/>
-    <a href="/user.html">{username}</a>
+    <a href="/user">{username}</a>
   {:else}
-    <a class={current} on:click={() => logIn("Rowdy")} href="#signup">Login/SignUp</a>
+    <a class={current} href="/login">Login/SignUp</a>
   {/if}
   
 </main>

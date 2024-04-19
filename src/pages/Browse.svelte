@@ -1,5 +1,6 @@
 <script lang="ts">
   import Listing from "../lib/Listing.svelte"
+  import Topnav from "../lib/Topnav.svelte";
 
   let listings: Listing[] = [ (null as unknown) as Listing ]
   let numListings: number = 0
@@ -22,6 +23,7 @@
 </script>
 
 <main>
+  <Topnav />
   <div class="filter">
     <label for="search">Search:</label>
     <input style="min-width: 20vw;" type="text" id="search" name="search" on:submit={()=>search("item")} placeholder="Try searching for new clothes..."><br><button on:click={()=>search("item")}>Search</button><br>

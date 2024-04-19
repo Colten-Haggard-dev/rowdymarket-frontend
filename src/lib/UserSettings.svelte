@@ -14,7 +14,7 @@
     isLoading = true;
     errorMessage = '';
     try {
-      const response = await fetch('/api/user/settings', {
+      const response = await fetch('http://localhost:8080/api/user', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -65,7 +65,7 @@
   });
 </script>
 
-// GUI formatting/code for front end
+<!-- // GUI formatting/code for front end -->
 <style>
   .settings-container {
     display: flex;
