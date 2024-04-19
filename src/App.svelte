@@ -2,8 +2,9 @@
   import LandingPage from "./lib/LandingPage.svelte"
   import Topnav from "./lib/Topnav.svelte"
 
-  localStorage.setItem('user_id', '-1')
-  localStorage.setItem('view_user_id', '-1')
+  //localStorage.setItem('user_id', '-1')
+  //localStorage.setItem('view_user_id', '-1')
+  //sessionStorage.setItem('user_id', '-1')
 </script>
 
 <main>

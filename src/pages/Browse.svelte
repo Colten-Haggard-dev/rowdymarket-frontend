@@ -1,40 +1,68 @@
 <script lang="ts">
   import Listing from "../lib/Listing.svelte"
-  import Topnav from "../lib/Topnav.svelte";
+  import Topnav from "../lib/Topnav.svelte"
+  import { onMount } from 'svelte'
 
   let listings: Listing[] = [ (null as unknown) as Listing ]
+  let bitems: Item[] = []
   let numListings: number = 0
+  let image_dir: string = "/UTSA-Roadrunners-Logo.png"
 
-  function search(str: string) {
-    for (let i = 0; i < listings.length; ++i)
-    {
-      if (listings[i].hasTag(str))
-      {
-        console.log("found")
+  interface Item {
+    itemId: number;
+    name: string;
+    description: string;
+    price: number;
+    quantityAvailable: number;
+    imageUrl: string;
+  }
+
+  // Function to fetch items from the API
+  async function fetchItems(): Promise<Item[] | undefined> {
+    try {
+      const response = await fetch("http://localhost:8080/api/Items", {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      const items: Item[] = await response.json();
+      console.log("Items fetched successfully:", items);
+
+      // Here you can manipulate the fetched data
+      return items;
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      return undefined;
     }
-    
   }
 
-  function add_listing() {
-    numListings++
-    listings.push( (null as unknown) as Listing )
-  }
+  onMount(async () => {
+		// Example of how to use the fetchItems function
+    await fetchItems().then(items => {
+      if (items) {
+        bitems = items
+      }
+    });
+	});
 </script>
 
 <main>
   <Topnav />
   <div class="filter">
     <label for="search">Search:</label>
-    <input style="min-width: 20vw;" type="text" id="search" name="search" on:submit={()=>search("item")} placeholder="Try searching for new clothes..."><br><button on:click={()=>search("item")}>Search</button><br>
+    <input style="min-width: 20vw;" type="text" id="search" name="search" on:submit={()=>console.log("search")} placeholder="Try searching for new stuff..."><br><button on:click={()=>console.log("search")}>Search</button><br>
   </div>
   <div class="listings">
-    {#each {length: numListings} as _item, i}
-      <svelte:component this={Listing} bind:this={listings[i]}></svelte:component>
+    {#each bitems as _item, i}
+      <!-- <svelte:component this={Listing} bind:this={listings[i]}></svelte:component> -->
+      <Listing id={bitems[i].itemId} name={bitems[i].name} price={bitems[i].price} quantity={bitems[i].quantityAvailable} image_dir={bitems[i].imageUrl}/>
     {/each}
-    <button style="float: left;" on:click={() => add_listing()}>
-      Add Listing
-    </button>
   </div>
   
 </main>

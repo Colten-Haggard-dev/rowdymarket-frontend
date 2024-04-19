@@ -8,25 +8,22 @@
 
     if (document.URL.endsWith("browse"))
     {
-        bclasses[0] = active
+      bclasses[0] = active
     }
     else if (document.URL.endsWith("contact"))
     {
-        bclasses[1] = active
+      bclasses[1] = active
     }
     else if (document.URL.endsWith("about"))
     {
-        bclasses[2] = active
+      bclasses[2] = active
+    }
+    else if (document.URL.endsWith("cart"))
+    {
+      bclasses[3] = active
     }
   
     let account_icon: AccountIcon
-    let isLoggedIn: boolean = false
-
-    function logIn()
-    {
-        isLoggedIn = account_icon.isLoggedIn()
-        account_icon.logIn("Rowdy")
-    }
   </script>
   
   <main>
@@ -36,11 +33,8 @@
       <a class={bclasses[1]} href="/contact">Contact</a>
       <a class={bclasses[2]} href="/about">About</a>
 
-      {#if isLoggedIn}
-        <a style="float: right;" on:click={() => logIn()} on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="/user"> <AccountIcon bind:this={account_icon}/> </a>
-      {:else}
-        <a style="float: right;" on:click={() => logIn()} on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="/login"> <AccountIcon bind:this={account_icon}/> </a>
-      {/if}
+      <a style="float: right;" on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="#account"> <AccountIcon bind:this={account_icon}/> </a>
+      <a style="float: right;" class={bclasses[3]} href="/cart">Cart</a>
     </div>
   </main>
   

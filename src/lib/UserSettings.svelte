@@ -37,8 +37,8 @@
     isLoading = true;
     errorMessage = '';
     try {
-      const response = await fetch('/api/user/settings', {
-        method: 'POST',
+      const response = await fetch('http://localhost:8080/api/Users', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },

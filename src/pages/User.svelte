@@ -6,7 +6,7 @@
   let email: string = "rowdy.roadrunner@utsa.edu"
   let address: string = "1 UTSA Circle, San Antonio, TX 78249"
 
-  const is_user: boolean = localStorage.getItem('user_id') == localStorage.getItem('view_user_id')
+  const is_user: boolean = sessionStorage.getItem('user_id') == sessionStorage.getItem('view_user_id')
 </script>
 
 <main>

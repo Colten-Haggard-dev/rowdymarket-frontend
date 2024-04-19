@@ -1,21 +1,17 @@
 <script lang="ts">
-  import User from "../pages/User.svelte";
-
   const active = "active"
   const inactive = "inactive"
 
   $: current = inactive
-  $: loggedin = false
-  $: username = ""
+
+  let username = "Rowdy"
+  let loggedin = sessionStorage.getItem("user_id") != null;
+
+  console.log(sessionStorage.getItem("user_id"))
 
   export function isLoggedIn(): boolean
   {
     return loggedin
-  }
-
-  export function logIn(uname: string): void {
-    loggedin = true
-    username = uname
   }
 
   export function useHover(isactive: boolean): void

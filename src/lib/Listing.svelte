@@ -1,23 +1,30 @@
 <script lang="ts">
   let symbol: string = "$"
-  let price: number = 10
-  let name: string = "Rowdy balls"
-  let account: string = "Rowdy"
-  let image_dir: string = "/UTSA-Roadrunners-Logo.png"
-
-  export let tags = ["item"]
+  export let price: number = 10
+  export let name: string = "Rowdy balls"
+  export let quantity: number = 0
+  export let image_dir: string = "/UTSA-Roadrunners-Logo.png"
+  export let id: number = -1
 
   function click() {
-    console.log("funny ah")
-  }
+    let temp = sessionStorage.getItem('cart')
 
-  export function hasTag(tag: string): boolean {
-    tags.forEach(element => {
-      if (element == tag)
-        return true
-    });
+    if (temp != null)
+    {
+      let str: string[] = temp.split(',')
+      for (let i: number = 0; i < str.length; ++i)
+      {
+        if (id.toString() == str[i])
+          return
+      }
 
-    return false
+      str.push(id.toString())
+      sessionStorage.setItem('cart', str.toString())
+    }
+    else
+    {
+      sessionStorage.setItem('cart', id.toString())
+    }
   }
 </script>
 
@@ -26,8 +33,8 @@
     <img class="image" src={image_dir} alt="Item" width="100" height="100"/>
     <p>
       {name}<br>
-      Soldy by: {account}<br>
       Price: {symbol}{price}<br>
+      Quanity: {quantity}<br>
     </p>
   </button>
 </main>
