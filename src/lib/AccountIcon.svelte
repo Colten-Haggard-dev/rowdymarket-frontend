@@ -2,12 +2,59 @@
   const active = "active"
   const inactive = "inactive"
 
+  interface User {
+    userId: number,
+    address: string,
+    email: string,
+    password: string,
+    phone_number: string,
+    username: string
+  }
+
   $: current = inactive
 
   let username = "Rowdy"
   let loggedin = sessionStorage.getItem("user_id") != null;
 
   console.log(sessionStorage.getItem("user_id"))
+
+    // Function to fetch items from the API
+    async function fetchUser() {
+    try {
+      const url = "http://localhost:8080/api/Users/" + sessionStorage.getItem('user_id')
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const user: User = await response.json();
+      console.log("User fetched successfully:", user);
+
+      // Here you can manipulate the fetched data
+      return user;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return undefined;
+    }
+  }
+
+  function updateInfo()
+  {
+    fetchUser().then(user => {
+      if (user)
+      {
+        username = user.username
+      }
+    })
+  }
+
+  updateInfo()
 
   export function isLoggedIn(): boolean
   {

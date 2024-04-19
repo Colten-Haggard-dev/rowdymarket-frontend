@@ -1,7 +1,15 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Topnav from '../lib/Topnav.svelte';
-    import User from './User.svelte';
+
+  interface User {
+    userId: number,
+    address: string,
+    email: string,
+    password: string,
+    phone_number: string,
+    username: string
+  }
 
   let email: string = '';
   let username: string = '';
@@ -9,9 +17,6 @@
   let address: string = '';
   let phone: string = '';
   let isError: boolean = false;
-
-  console.log(localStorage.getItem('users'))
-  console.log(sessionStorage.getItem('user_id'))
 
   let isReady: boolean = false
   let loginSwitch: boolean = false
@@ -43,12 +48,41 @@
     }
   }
 
+  async function loginRequest() {
+    try {
+      const url = "http://localhost:8080/api/Login"
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({"username:" : username, "password": password}),
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const user: User = await response.json();
+      console.log("User fetched successfully:", user);
+
+      // Here you can manipulate the fetched data
+      return user;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return undefined;
+    }
+  }
+
   const handleSubmit = (event: SubmitEvent): void => {
     event.preventDefault();
     if (loginSwitch)
       createUser().then()
     else
-      console.log("login")
+    {
+      sessionStorage.setItem('user_id', '2')
+      loginRequest().then()
+    }
     //handleLogin();
 
     // let usr_str: any = localStorage.getItem("users")

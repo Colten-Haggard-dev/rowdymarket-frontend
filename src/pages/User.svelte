@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Topnav from "../lib/Topnav.svelte";
   import UserSettings from "../lib/UserSettings.svelte"
 
   let image_dir: string = "/UTSA-Roadrunners-Logo.png"
@@ -7,16 +8,65 @@
   let address: string = "1 UTSA Circle, San Antonio, TX 78249"
 
   const is_user: boolean = sessionStorage.getItem('user_id') == sessionStorage.getItem('view_user_id')
+
+  interface User {
+    userId: number,
+    address: string,
+    email: string,
+    password: string,
+    phone_number: string,
+    username: string
+  }
+
+  // Function to fetch items from the API
+  async function fetchUser() {
+    try {
+      const url = "http://localhost:8080/api/Users/" + sessionStorage.getItem('user_id')
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const user: User = await response.json();
+      console.log("User fetched successfully:", user);
+
+      // Here you can manipulate the fetched data
+      return user;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return undefined;
+    }
+  }
+
+  function updateInfo()
+  {
+    fetchUser().then(user => {
+      if (user)
+      {
+        user_name = user.username
+        email = user.email
+        address = user.address
+      }
+    })
+  }
+
+  updateInfo()
+
 </script>
 
 <main>
+  <Topnav />
   <img class="image" src={image_dir} alt="Item" width="300" height="300"/>
   <h1>{user_name}</h1>
   <h2>{email}</h2>
-  {#if is_user}
-    <h2>{address}</h2>
-    <UserSettings />
-  {/if}
+  <h2>{address}</h2>
+  <!-- <UserSettings /> -->
 
 </main>
 
