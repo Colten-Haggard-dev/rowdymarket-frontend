@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { SvelteComponent, type ComponentType, type ComponentProps } from 'svelte';
-  import Listing from "./Listing.svelte"
+  import Listing from "../lib/Listing.svelte"
 
   let listings: Listing[] = [ (null as unknown) as Listing ]
   let numListings: number = 0

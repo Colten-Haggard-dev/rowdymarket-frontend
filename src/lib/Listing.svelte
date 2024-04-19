@@ -1,12 +1,13 @@
 <script lang="ts">
-  let denom: string = "USD"
   let symbol: string = "$"
   let price: number = 10
+  let name: string = "Rowdy balls"
+  let account: string = "Rowdy"
   let image_dir: string = "/UTSA-Roadrunners-Logo.png"
 
   export let tags = ["item"]
 
-  function click(params:type) {
+  function click() {
     console.log("funny ah")
   }
 
@@ -23,7 +24,11 @@
 <main>
   <button on:click={()=>click()}>
     <img class="image" src={image_dir} alt="Item" width="100" height="100"/>
-    <p>Price: {symbol}{price}</p>
+    <p>
+      {name}<br>
+      Soldy by: {account}<br>
+      Price: {symbol}{price}<br>
+    </p>
   </button>
 </main>
 

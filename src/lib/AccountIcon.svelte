@@ -1,4 +1,6 @@
 <script lang="ts">
+  import User from "../pages/User.svelte";
+
   const active = "active"
   const inactive = "inactive"
 
@@ -6,7 +8,7 @@
   $: loggedin = false
   $: username = ""
 
-  export function logIn(uname: string) {
+  export function logIn(uname: string): void {
     loggedin = true
     username = uname
   }
@@ -23,7 +25,7 @@
 <main class={current}>
   {#if loggedin}
     <img src="/UTSA-Roadrunners-Logo.png" alt="Account icon" width="32" height="32"/>
-    {username}
+    <a href="/user.html">{username}</a>
   {:else}
     <a class={current} on:click={() => logIn("Rowdy")} href="#signup">Login/SignUp</a>
   {/if}
@@ -34,6 +36,11 @@
   * {
     text-align: center;
     float: left;
+  }
+
+  .account {
+    float: right;
+    font-size: small;
   }
 
   a:hover {

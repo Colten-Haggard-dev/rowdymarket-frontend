@@ -1,6 +1,6 @@
 <script lang="ts">
   import LandingPage from "./lib/LandingPage.svelte"
-  import Browse from "./lib/Browse.svelte"
+  import Browse from "./pages/Browse.svelte"
   import Counter from './lib/Counter.svelte'
   import AccountIcon from "./lib/AccountIcon.svelte"
   
@@ -12,7 +12,11 @@
   let account_icon: AccountIcon
   
   let curr_comp: any = LandingPage
-  $: curr_comp
+
+  export function change_comp(comp: any)
+  {
+    curr_comp = comp
+  }
 
   function update_classes(idx: number): void {
     for (let index = 0; index < bclasses.length; index++) {
