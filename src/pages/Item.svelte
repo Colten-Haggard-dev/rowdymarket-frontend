@@ -30,15 +30,34 @@
   let currItem: Item
 
   onMount(async () => {
-		// Example of how to use the fetchItems function
-    await itemRequest().then(item => currItem);
+    await itemRequest().then(item => {
+      if (item)
+        currItem = item
+    });
 	});
 </script>
 
 <main>
   <Topnav />
 
-  
+  {#if currItem}
+  <div>
+    <img class="image" src={currItem.imageUrl} alt="Item" width="300" height="300"/>
+    
+    <h1>
+      {currItem.name}
+    </h1>
+
+    <h2>
+      ${currItem.price}<br>
+      Quantity: {currItem.quantityAvailable}
+    </h2>
+
+    <button >
+      Add to cart
+    </button>
+  </div>
+  {/if}
 </main>
 
 <style>

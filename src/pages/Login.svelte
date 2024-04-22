@@ -1,21 +1,16 @@
 <script lang="ts">
   import Topnav from '../lib/Topnav.svelte';
-    import User from './User.svelte';
 
   let email: string = '';
   let username: string = '';
   let password: string = '';
   let address: string = '';
   let phone: string = '';
-  let isError: boolean = false;
 
   let isReady: boolean = false
   let loginSwitch: boolean = false
 
-  let errorMessage: string = '';
-
   async function createUser() {
-    errorMessage = '';
     try {
       const response = await fetch('http://localhost:8080/api/Users/register', {
         method: 'POST',
@@ -34,7 +29,7 @@
         throw new Error(`Failed to create user: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
-      errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      console.log(error instanceof Error ? error.message : 'An unknown error occurred')
     }
   }
 
@@ -70,9 +65,14 @@
       createUser().then()
     else
     {
-      let loggedUser: User
-      sessionStorage.setItem('user_id', '2')
-      loginRequest().then(user => loggedUser)
+      loginRequest().then().then(user => {
+        if (user)
+        {
+          sessionStorage.setItem('user_id', user.userId.toString())
+        }
+
+        location.href = "/browse"
+      })
     }
   };
 

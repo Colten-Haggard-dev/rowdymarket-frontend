@@ -2,24 +2,13 @@
   const active = "active"
   const inactive = "inactive"
 
-  interface User {
-    userId: number,
-    address: string,
-    email: string,
-    password: string,
-    phone_number: string,
-    username: string
-  }
-
   $: current = inactive
 
   let username = "Rowdy"
   let loggedin = sessionStorage.getItem("user_id") != null;
 
-  console.log(sessionStorage.getItem("user_id"))
-
     // Function to fetch items from the API
-    async function fetchUser() {
+  async function fetchUser() {
     try {
       const url = "http://localhost:8080/api/Users/" + sessionStorage.getItem('user_id')
       const response = await fetch(url, {
@@ -54,7 +43,8 @@
     })
   }
 
-  updateInfo()
+  if (loggedin)
+    updateInfo()
 
   export function isLoggedIn(): boolean
   {
@@ -68,12 +58,19 @@
     else
       current = inactive
   }
+
+  function updateVUId() {
+    const user_id = sessionStorage.getItem("user_id")
+
+    if (user_id)
+      sessionStorage.setItem('view_user_id', user_id)
+  }
 </script>
 
 <main class={current}>
   {#if loggedin}
     <img src="/UTSA-Roadrunners-Logo.png" alt="Account icon" width="32" height="32"/>
-    <a href="/user">{username}</a>
+    <a on:click={updateVUId} href="/user">{username}</a>
   {:else}
     <a class={current} href="/login">Login/SignUp</a>
   {/if}

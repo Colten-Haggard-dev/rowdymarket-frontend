@@ -88,38 +88,38 @@ export default app
 //     console.log(e);
 //   })
 
-let item: Item
+// let item: Item
 
-async function fetchItems(): Promise<Item[] | undefined> {
-  try {
-    const response = await fetch("http://localhost:8080/api/Items/27", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json"
-      }
-    });
+// async function fetchItems(): Promise<Item[] | undefined> {
+//   try {
+//     const response = await fetch("http://localhost:8080/api/Items/27", {
+//       method: "GET",
+//       headers: {
+//         "Accept": "application/json"
+//       }
+//     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
 
-    const items: Item[] = await response.json();
-    console.log("Item fetched successfully:", items);
+//     const items: Item[] = await response.json();
+//     console.log("Item fetched successfully:", items);
 
-    // Here you can manipulate the fetched data
-    return items;
-  } catch (error) {
-    console.error("Error fetching items:", error);
-    return undefined;
-  }
-}
+//     // Here you can manipulate the fetched data
+//     return items;
+//   } catch (error) {
+//     console.error("Error fetching items:", error);
+//     return undefined;
+//   }
+// }
 
-await fetchItems().then(items => {
-  if (items)
-  {
-    console.log(items)
-  }
-})
+// await fetchItems().then(items => {
+//   if (items)
+//   {
+//     console.log(items)
+//   }
+// })
 
 
 // let isLoading: boolean = false;

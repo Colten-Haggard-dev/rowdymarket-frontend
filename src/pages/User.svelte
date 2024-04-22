@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Topnav from "../lib/Topnav.svelte";
+  import Topnav from "../lib/Topnav.svelte";
   import UserSettings from "../lib/UserSettings.svelte"
 
   let image_dir: string = "/UTSA-Roadrunners-Logo.png"
@@ -8,15 +8,6 @@
   let address: string = "1 UTSA Circle, San Antonio, TX 78249"
 
   const is_user: boolean = sessionStorage.getItem('user_id') == sessionStorage.getItem('view_user_id')
-
-  interface User {
-    userId: number,
-    address: string,
-    email: string,
-    password: string,
-    phone_number: string,
-    username: string
-  }
 
   // Function to fetch items from the API
   async function fetchUser() {
@@ -58,6 +49,17 @@
 
   updateInfo()
 
+  function createListing()
+  {
+    location.href = "/createitem"
+  }
+
+  function logOut()
+  {
+    sessionStorage.removeItem('user_id')
+    location.href = "/login"
+  }
+
 </script>
 
 <main>
@@ -66,10 +68,25 @@
   <h1>{user_name}</h1>
   <h2>{email}</h2>
   <h2>{address}</h2>
+
+  {#if is_user}
+    <button>
+      Edit settings
+    </button><br>
+    <button on:click={createListing}>
+      List item
+    </button><br>
+    <button on:click={logOut}>
+      Log out
+    </button>
+  {/if}
   <!-- <UserSettings /> -->
 
 </main>
 
 <style>
+  button {
+    margin-bottom: 20px;
+  }
 </style>
   

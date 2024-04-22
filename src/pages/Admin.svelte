@@ -1,7 +1,7 @@
 <script lang="ts">
   import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
-  import CreateItem from "../lib/CreateItem.svelte";
+  //import CreateItem from "../lib/CreateItem.svelte";
 </script>
 
 <main>
@@ -12,7 +12,7 @@
   <div class="welcome">
     <p>WELCOME TO THE ADMIN PORTAL</p>
   </div>
-  <CreateItem />
+  <!-- <CreateItem /> -->
 </main>
 
 <style>
