@@ -2,20 +2,8 @@
   import Listing from "../lib/Listing.svelte"
   import Topnav from "../lib/Topnav.svelte"
   import { onMount } from 'svelte'
-
-  let listings: Listing[] = [ (null as unknown) as Listing ]
+  
   let bitems: Item[] = []
-  let numListings: number = 0
-  let image_dir: string = "/UTSA-Roadrunners-Logo.png"
-
-  interface Item {
-    itemId: number;
-    name: string;
-    description: string;
-    price: number;
-    quantityAvailable: number;
-    imageUrl: string;
-  }
 
   // Function to fetch items from the API
   async function fetchItems(): Promise<Item[] | undefined> {

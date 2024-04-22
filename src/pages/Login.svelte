@@ -1,15 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import Topnav from '../lib/Topnav.svelte';
-
-  interface User {
-    userId: number,
-    address: string,
-    email: string,
-    password: string,
-    phone_number: string,
-    username: string
-  }
+    import User from './User.svelte';
 
   let email: string = '';
   let username: string = '';
@@ -21,7 +12,6 @@
   let isReady: boolean = false
   let loginSwitch: boolean = false
 
-  let isLoading: boolean = false;
   let errorMessage: string = '';
 
   async function createUser() {
@@ -50,12 +40,12 @@
 
   async function loginRequest() {
     try {
-      const url = "http://localhost:8080/api/Login"
+      const url = "http://localhost:8080/api/login"
       const response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify({"username:" : username, "password": password}),
+        body: JSON.stringify({"username" : username, "password": password}),
         headers: {
-          "Accept": "application/json"
+          "Content-Type": "application/json"
         }
       });
 
@@ -80,47 +70,10 @@
       createUser().then()
     else
     {
+      let loggedUser: User
       sessionStorage.setItem('user_id', '2')
-      loginRequest().then()
+      loginRequest().then(user => loggedUser)
     }
-    //handleLogin();
-
-    // let usr_str: any = localStorage.getItem("users")
-    // isReady = false
-
-    // if (!loginSwitch)
-    // {
-    //   if (usr_str == null)
-    //   {
-    //     return
-    //   }
-
-    //   let users = (usr_str as string).split(',')
-    //   users.forEach(function (element, i) {
-    //     const user = element.split(' ')
-    //     let nfound: boolean = user[0] == username
-    //     let pfound: boolean = user[2] == password
-
-    //     if (nfound && pfound)
-    //     {
-    //       sessionStorage.setItem('user_id', i.toString())
-    //     }
-    //   });
-
-    //   return
-    // }
-
-    // if (usr_str != null)
-    // {
-    //   let users = (usr_str as string).split(',')
-    //   users.push(username + ' ' + email + ' ' + password)
-    //   localStorage.setItem('users', users.toString())
-    // }
-    // else
-    // {
-    //   let user: string = username + ' ' + email + ' ' + password
-    //   localStorage.setItem('users', user)
-    // }
   };
 
   function handleLoginSingup(setup: boolean): void {

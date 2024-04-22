@@ -7,15 +7,6 @@ const app = new App({
 
 export default app
 
-interface Item {
-  itemId: number;
-  name: string;
-  description: string;
-  price: number;
-  quantityAvailable: number;
-  imageUrl: string;
-}
-
 // fetch('http://localhost:8080/api/Items', (
 //   {
 //     method: "POST",
