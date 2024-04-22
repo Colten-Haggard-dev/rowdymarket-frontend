@@ -56,7 +56,7 @@
     </div>
     <div class="input-group">
       <label for="image">Amount:</label>
-      <input type="image" id="image" bind:value={image_dir} required>
+      <input type="image" id="image" alt="Item" bind:value={image_dir} required>
     </div>
 
     <button type="submit">List item</button>    
