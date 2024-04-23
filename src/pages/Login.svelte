@@ -59,21 +59,22 @@
     }
   }
 
-  const handleSubmit = (event: SubmitEvent): void => {
+  const handleSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault();
     if (loginSwitch)
-      createUser().then()
-    else
     {
-      loginRequest().then().then(user => {
-        if (user)
-        {
-          sessionStorage.setItem('user_id', user.userId.toString())
-        }
-
-        location.href = "/browse"
-      })
+      await createUser().then();
     }
+
+    loginRequest().then().then(user => {
+      if (user)
+      {
+        sessionStorage.setItem('user_id', user.userId.toString())
+        console.log(sessionStorage.getItem('user_id'))
+      }
+
+      location.href = "/browse"
+    })
   };
 
   function handleLoginSingup(setup: boolean): void {

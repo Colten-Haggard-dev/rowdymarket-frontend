@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { writable, derived } from 'svelte/store';
     import { onMount } from 'svelte'
     import Topnav from './Topnav.svelte';
     import Listing from './Listing.svelte';
@@ -48,6 +47,7 @@
     let total = 0
 
     let cart: Item[] = []
+
     let cart_ids = sessionStorage.getItem('cart')?.split(',');
 
     onMount(async () => {
@@ -81,11 +81,17 @@
 
     function removeItem(id: number)
     {
-      cart.splice(id, 1)
-      cart_ids?.splice(id, 1)
+      if (!cart_ids)
+      {
+        sessionStorage.removeItem('cart')
+        return
+      }
 
-      if (cart_ids != null)
-        sessionStorage.setItem('cart', cart_ids?.toString())
+      //cart.splice(id, 1)
+      cart_ids.splice(id, 1)
+
+      if (cart_ids.length != 0)
+        sessionStorage.setItem('cart', cart_ids.toString())
 
       location.reload()
       //delete cart[id]
@@ -132,13 +138,17 @@
   
   <div>
     <Topnav />
+    {#if cart_ids}
+      {#each cart as _item, i}
+        <button on:click={() => removeItem(i)}>Remove
+          <Listing id={cart[i].itemId} name={cart[i].name} price={cart[i].price} quantity={cart[i].quantityAvailable} image_dir={cart[i].imageUrl}/>
+        </button>
+      {/each}
 
-    {#each cart as _item, i}
-      <button on:click={() => removeItem(i)}>Remove
-        <Listing id={cart[i].itemId} name={cart[i].name} price={cart[i].price} quantity={cart[i].quantityAvailable} image_dir={cart[i].imageUrl}/>
-      </button>
-    {/each}
-
-    <br>Total = ${total.toFixed(2)} (including tax)<br>
-    <button on:click={checkout}>Checkout</button>
+      <br>Total = ${total.toFixed(2)} (including tax)<br>
+      <button on:click={checkout}>Checkout</button>
+    {:else}
+      <h1>No items in cart...</h1>
+    {/if}
+    
   </div>

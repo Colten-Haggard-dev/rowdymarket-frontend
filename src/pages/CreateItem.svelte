@@ -8,9 +8,13 @@
   let desc: string = "desc"
   let image_dir: string = "/pizza.png"
 
+  const all_images: string[] = ["/apple.png", "/lays_alcohol.png", "/pizza.png", "/water.png"]
+
   async function createItem() {
     try {
-      const response = await fetch('http://localhost:8080/api/Items', {
+      const url: string = 'http://localhost:8080/api/Items?userId=' + sessionStorage.getItem('user_id')
+      console.log(url)
+      const response = await fetch(url, {
         method: 'POST',
         body: JSON.stringify({
           "name": name,
@@ -41,10 +45,14 @@
 <main>
   <Topnav />
 
-  <form on:submit={handleSubmit} class="create-container">
+  <form class="create-container">
     <div class="input-group">
       <label for="name">Item name:</label>
       <input type="name" id="name" bind:value={name} required>
+    </div>
+    <div class="input-group">
+      <label for="desc">Item description:</label>
+      <input type="desc" id="desc" bind:value={desc} required>
     </div>
     <div class="input-group">
       <label for="price">Price:</label>
@@ -56,10 +64,16 @@
     </div>
     <div class="input-group">
       <label for="image">Amount:</label>
-      <input type="image" id="image" alt="Item" bind:value={image_dir} required>
+      <select id="image" bind:value={image_dir} required>
+        {#each all_images as idir}
+          <option value={idir}>
+            {idir}
+          </option>
+        {/each}
+      </select>
     </div>
 
-    <button type="submit">List item</button>    
+    <button on:click={handleSubmit} type="submit">List item</button>    
   </form>
 </main>
 

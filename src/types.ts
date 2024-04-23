@@ -14,4 +14,5 @@ interface Item {
   price: number;
   quantityAvailable: number;
   imageUrl: string;
+  user_id: number
 }

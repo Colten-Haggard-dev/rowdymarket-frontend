@@ -27,6 +27,27 @@
     }
   }
 
+  function addToCart() {
+    let temp = sessionStorage.getItem('cart')
+
+    if (temp)
+    {
+      let str: string[] = temp.split(',')
+      for (let i: number = 0; i < str.length; ++i)
+      {
+        if (currItem.itemId.toString() == str[i])
+          return
+      }
+
+      str.push(currItem.itemId.toString())
+      sessionStorage.setItem('cart', str.toString())
+    }
+    else
+    {
+      sessionStorage.setItem('cart', currItem.itemId.toString())
+    }
+  }
+
   let currItem: Item
 
   onMount(async () => {
@@ -41,22 +62,25 @@
   <Topnav />
 
   {#if currItem}
-  <div>
-    <img class="image" src={currItem.imageUrl} alt="Item" width="300" height="300"/>
-    
-    <h1>
-      {currItem.name}
-    </h1>
+    <div>
+      <img class="image" src={currItem.imageUrl} alt="Item" width="300" height="300"/>
+      
+      <h1>
+        {currItem.name}
+      </h1>
 
-    <h2>
-      ${currItem.price}<br>
-      Quantity: {currItem.quantityAvailable}
-    </h2>
-
-    <button >
-      Add to cart
-    </button>
-  </div>
+      <h2>
+        {currItem.description}<br><br>
+        Price: ${currItem.price}<br>
+        Quantity: {currItem.quantityAvailable}
+      </h2>
+      {#if sessionStorage.getItem('user_id')}
+        <button on:click={addToCart}>
+          Add to cart
+        </button>
+      {/if}
+      
+    </div>
   {/if}
 </main>
 

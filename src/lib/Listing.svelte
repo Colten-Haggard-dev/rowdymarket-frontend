@@ -9,24 +9,6 @@
   function click() {
     sessionStorage.setItem('item_id', id.toString())
     location.href = "/item"
-    // let temp = sessionStorage.getItem('cart')
-
-    // if (temp != null)
-    // {
-    //   let str: string[] = temp.split(',')
-    //   for (let i: number = 0; i < str.length; ++i)
-    //   {
-    //     if (id.toString() == str[i])
-    //       return
-    //   }
-
-    //   str.push(id.toString())
-    //   sessionStorage.setItem('cart', str.toString())
-    // }
-    // else
-    // {
-    //   sessionStorage.setItem('cart', id.toString())
-    // }
   }
 </script>
 
