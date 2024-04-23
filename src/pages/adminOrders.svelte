@@ -8,7 +8,6 @@
 
   async function fetchOrders(): Promise<Order[] | undefined> {
     try {
-      const url_end = sort != "unsorted" ? "Orders?sort=" + sort + "&direction=" + dir : "Orders";
       const url = "http://localhost:8080/api/Oders?sort=" + dir
       console.log(url)
       const response = await fetch(url, {
@@ -41,7 +40,8 @@
       aOrders = orders
       }
     });
-	}
+	});
+
 </script>
 
 <main>
