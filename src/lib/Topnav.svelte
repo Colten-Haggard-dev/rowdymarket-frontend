@@ -34,7 +34,10 @@
       <a class={bclasses[2]} href="/about">About</a>
 
       <a style="float: right;" on:mouseenter={() => account_icon.useHover(true)} on:mouseleave={() => account_icon.useHover(false)} href="#account"> <AccountIcon bind:this={account_icon}/> </a>
-      <a style="float: right;" class={bclasses[3]} href="/cart">Cart</a>
+      {#if sessionStorage.getItem('user_id')}
+        <a style="float: right;" class={bclasses[3]} href="/cart">Cart</a>
+      {/if}
+      
     </div>
   </main>
   

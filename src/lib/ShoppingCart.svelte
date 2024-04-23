@@ -2,20 +2,6 @@
     import { onMount } from 'svelte'
     import Topnav from './Topnav.svelte';
     import Listing from './Listing.svelte';
-  
-    interface Item {
-      itemId: number;
-      name: string;
-      description: string;
-      price: number;
-      quantityAvailable: number;
-      imageUrl: string;
-    }
-  
-    interface Discount {
-      code: string;
-      amount: number; // Discount amount as a decimal (e.g., 0.20 for 20% off)
-    }
 
     async function fetchItem(str: string) {
       try {
@@ -61,6 +47,7 @@
           if (item)
           {
             cart[i] = item
+            cartAddRequest(item);
           }
         })
       }
@@ -98,9 +85,11 @@
 
       console.log(cart)
     }
+
     async function orderRequest() {
       
     }
+
     async function checkoutRequest(id: number): Promise<void> {
       try {
         const url = 'http://localhost:8080/api/Items/' + id
@@ -127,9 +116,29 @@
         await checkoutRequest(cart[i].itemId)
       }
 
+      sessionStorage.removeItem('cart')
+
       location.href = "/checkout"
     }
 
+    async function cartAddRequest(item: Item) {
+      try {
+        const url = 'http://localhost:8080/api/Cart/add?userId=' + sessionStorage.getItem('user_id') + "&itemId=" + item.itemId + "&quantity=" + item.quantityAvailable + "&discountPercent=" + discount
+        const response = await fetch( url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+      if (!response.ok) {
+        throw new Error(`Failed to add to shopping cart: ${response.status} ${response.statusText}`);
+      }
+
+      } catch (error) {
+        console.log(error instanceof Error ? error.message : 'An unknown error occurred')
+      }
+    }
 
   </script>
   
@@ -144,6 +153,8 @@
           <Listing id={cart[i].itemId} name={cart[i].name} price={cart[i].price} quantity={cart[i].quantityAvailable} image_dir={cart[i].imageUrl}/>
         </button>
       {/each}
+
+      
 
       <br>Total = ${total.toFixed(2)} (including tax)<br>
       <button on:click={checkout}>Checkout</button>
