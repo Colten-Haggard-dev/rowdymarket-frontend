@@ -1,6 +1,6 @@
 <script>
   import AdminSideNav from "../lib/AdminSideNav.svelte";
-import Topnav from "../lib/Topnav.svelte";
+  import Topnav from "../lib/Topnav.svelte";
 </script>
 
 <main>
@@ -23,4 +23,3 @@ import Topnav from "../lib/Topnav.svelte";
     min-height: 100%
   }
 </style>
-  

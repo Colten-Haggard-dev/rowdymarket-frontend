@@ -28,7 +28,4 @@
   background-color: white;
   border-radius: 0%;
 }
-.buttonContainer{
-}
-
 </style>

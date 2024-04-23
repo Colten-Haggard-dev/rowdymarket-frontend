@@ -1,10 +1,6 @@
 <script lang="ts">
   import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
-<<<<<<< Updated upstream
-  //import CreateItem from "../lib/CreateItem.svelte";
-=======
->>>>>>> Stashed changes
 </script>
 
 <main>
@@ -15,10 +11,6 @@
   <div class="welcome">
     <p>WELCOME TO THE ADMIN PORTAL</p>
   </div>
-<<<<<<< Updated upstream
-  <!-- <CreateItem /> -->
-=======
->>>>>>> Stashed changes
 </main>
 
 <style>
