@@ -16,3 +16,20 @@ interface Item {
   imageUrl: string;
   user_id: number
 }
+
+interface CartItem {
+  userId: number;
+  itemId: number;
+  quantity: number;
+  discountPercent: number;
+}
+
+interface Order {
+  orderId: number;
+  discountCode: string;
+  orderDate: string;
+  orderStatus: string;
+  taxAmount: number;
+  totalAmount: number;
+  userId: number;
+}

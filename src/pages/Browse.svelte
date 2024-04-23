@@ -5,13 +5,12 @@
   
   let bitems: Item[] = []
   let dir: string = "asc"
-  let sort: string = "unsorted"
+  let sort: string = "price"
 
   // Function to fetch items from the API
   async function fetchItems(): Promise<Item[] | undefined> {
     try {
-      const url_end = sort != "unsorted" ? "Items?sort=" + sort + "&direction=" + dir : "Items";
-      const url = "http://localhost:8080/api/Items?sort=" + dir
+      const url = "http://localhost:8080/api/Items?sort=" + sort + "&direction=" + dir
       console.log(url)
       const response = await fetch(url, {
         method: "GET",
@@ -61,8 +60,6 @@
     
     <p style="margin-right: 30px;">Sort by: </p>
 
-    <label for="unsorted">Unsorted:</label>
-    <input type="radio" id="unsorted" bind:group={sort} on:change={onChange} value="unsorted">
     <label for="price">Price:</label>
     <input type="radio" id="price" bind:group={sort} on:change={onChange} value="price">
     <label for="name">Name:</label>
