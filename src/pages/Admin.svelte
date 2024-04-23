@@ -17,10 +17,10 @@
   .sideNav {
     position: fixed;
     left: 0;
-    top:10.5%;
+    top: 7.5%;
     display: flex;
     flex-wrap: flex;
-    background-color: gray;
+    background-color: #0C2340;
     width: 10%;
     min-height: 100%
   }
