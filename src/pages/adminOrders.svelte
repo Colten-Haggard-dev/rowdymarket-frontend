@@ -37,7 +37,7 @@
 		// Example of how to use the fetchItems function
     await fetchOrders().then(orders => {
       if (orders) {
-      aOrders = orders
+        aOrders = orders
       }
     });
 	});
