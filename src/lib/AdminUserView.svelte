@@ -3,7 +3,7 @@
 </script>
 
 <main>
-  <div>this is the create item component</div>
+  <div></div>
 </main>
 
 <style>
