@@ -1,13 +1,11 @@
 <script>
   import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
-  import DiscountPortal from "../lib/DiscountPortal.svelte";
   </script>
   
   <main>
     <Topnav />
     <div class="sideNav"><AdminSideNav /></div>
-    <DiscountPortal />
   </main>
   
   <style>

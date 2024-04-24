@@ -4,7 +4,6 @@
   import { onMount } from "svelte";
   let aUsers: User[] = [];
   let dir: string = "asc"
-  let sort: string = "unsorted"
 
   async function fetchOrders(): Promise<User[] | undefined> {
     try {
