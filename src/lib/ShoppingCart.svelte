@@ -28,8 +28,8 @@
       }
     }
 
-    const discount = 0;
     const taxRate = 0.0825; // Tax rate of 8.25%
+    let discountCode: string = "";
     let total: number = 0
     let subtotal: number = 0
     let tax: number = 0
@@ -100,7 +100,36 @@
     }
 
     async function orderRequest() {
-      
+      let uid: number = -1
+      const str = sessionStorage.getItem('user_id')
+
+      if (str)
+        uid = parseInt(str, 10)
+
+      try {
+        const response = await fetch('http://localhost:8080/api/Orders', {
+          method: 'POST',
+          body: JSON.stringify({
+            "discountCode": discountCode,
+            "shoppingCart": cart_ids,
+            "orderDate": new Date(Date.now()).toJSON().toString(),
+            "orderStatus": "Pending",
+            "taxAmount": calcTax(),
+            "totalAmount": calcTotal(),
+            "userId": uid
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+      if (!response.ok) {
+        throw new Error(`Failed to add to shopping cart: ${response.status} ${response.statusText}`);
+      }
+
+      } catch (error) {
+        console.log(error instanceof Error ? error.message : 'An unknown error occurred')
+      }
     }
 
     async function checkoutRequest(id: number): Promise<void> {
@@ -129,6 +158,8 @@
         await checkoutRequest(cart[i].itemId)
       }
 
+      await orderRequest()
+
       sessionStorage.removeItem('cart')
 
       location.href = "/checkout"
@@ -143,7 +174,7 @@
             "itemId": item.itemId,
             "shoppingCart": cart_ids,
             "quantity": item.quantityAvailable,
-            "discount": discount
+            "discount": discountCode
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -180,6 +211,10 @@
       }
     }
 
+    async function onSubmit() {
+      
+    }
+
   </script>
 
 <main class="scroll">
@@ -191,6 +226,11 @@
           <Listing id={cart[i].itemId} name={cart[i].name} price={cart[i].price} quantity={cart[i].quantityAvailable} image_dir={cart[i].imageUrl}/>
         </button>
       {/each}
+
+      <br><form on:submit|preventDefault={onSubmit}>
+        <label for="discount">Discount Code:</label>
+        <input class="text" type="text" id="discount" bind:value={discountCode}>
+      </form>
 
       <div class="total">
         <ul>
@@ -211,6 +251,11 @@
 </main>
 
 <style>
+  .text {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
   .scroll {
     margin-top: 10%;
     overflow-y: scroll;

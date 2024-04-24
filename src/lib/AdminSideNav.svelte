@@ -30,5 +30,6 @@
     background-color: white;
     color: black;
     overflow-y: scroll;
+    overflow: hidden;
   }
 </style>

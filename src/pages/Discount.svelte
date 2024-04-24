@@ -8,8 +8,7 @@
 
   async function fetchDiscounts(): Promise<Discount[] | undefined> {
     try {
-      const url = "http://localhost:8080/api/discounts/"
-      console.log(url)
+      const url = "http://localhost:8080/api/discounts"
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -30,14 +29,6 @@
       console.error("Error fetching items:", error);
       return undefined;
     }
-  }
-
-  async function onChange() {
-    await fetchDiscounts().then(discounts => {
-      if (discounts) {
-        aDiscounts = discounts
-      }
-    });
   }
 
   onMount(async () => {
