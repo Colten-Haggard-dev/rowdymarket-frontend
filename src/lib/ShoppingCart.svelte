@@ -33,14 +33,13 @@
     let total: number = 0
     let subtotal: number = 0
     let tax: number = 0
+    let udisc: Discount
 
     let cart: Item[] = []
 
     let cart_ids = sessionStorage.getItem('cart')?.split(',');
 
     onMount(async () => {
-      await clearCartRequest().then()
-
       if (cart_ids == null)
         return
 
@@ -51,10 +50,11 @@
           if (item)
           {
             cart[i] = item
-            cartAddRequest(item);
+            //cartAddRequest(item);
           }
         })
       }
+
       subtotal = calcSubTotal()
       tax = calcTax()
       total = calcTotal()
@@ -75,8 +75,16 @@
       return calcSubTotal() * taxRate
     }
 
+    function calcDiscount() {
+      if (udisc)
+        return udisc.discountValue * 0.01
+      else
+        return 0
+    }
+
     function calcTotal() {
-      return calcSubTotal() + calcTax()
+      const total: number = calcSubTotal() + calcTax()
+      return total - (total * calcDiscount())
     }
 
     function removeItem(id: number)
@@ -99,24 +107,43 @@
       console.log(cart)
     }
 
-    async function orderRequest() {
-      let uid: number = -1
-      const str = sessionStorage.getItem('user_id')
-
-      if (str)
-        uid = parseInt(str, 10)
-
+    async function discountRequest() {
       try {
-        const response = await fetch('http://localhost:8080/api/Orders', {
+      const url: string = "http://localhost:8080/api/discounts/" + discountCode
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const disc: Discount = await response.json();
+      console.log("Discount fetched successfully:", disc);
+
+      // Here you can manipulate the fetched data
+      return disc;
+    } catch (error) {
+      console.error("Error fetching discount:", error);
+      return undefined;
+    }
+    }
+
+    async function orderRequest() {
+      try {
+        const url = 'http://localhost:8080/api/Orders?userId=' + sessionStorage.getItem('user_id')
+        const response = await fetch(url, {
           method: 'POST',
           body: JSON.stringify({
             "discountCode": discountCode,
-            "shoppingCart": cart_ids,
             "orderDate": new Date(Date.now()).toJSON().toString(),
             "orderStatus": "Pending",
             "taxAmount": calcTax(),
             "totalAmount": calcTotal(),
-            "userId": uid
+            "userId": sessionStorage.getItem('user_id')
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -163,56 +190,19 @@
       sessionStorage.removeItem('cart')
 
       location.href = "/checkout"
-    }
-
-    async function cartAddRequest(item: Item) {
-      try {
-        const response = await fetch('http://localhost:8080/api/Cart/add', {
-          method: 'POST',
-          body: JSON.stringify({
-            "userId": sessionStorage.getItem('user_id'),
-            "itemId": item.itemId,
-            "shoppingCart": cart_ids,
-            "quantity": item.quantityAvailable,
-            "discount": discountCode
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-      if (!response.ok) {
-        throw new Error(`Failed to add to shopping cart: ${response.status} ${response.statusText}`);
-      }
-
-      } catch (error) {
-        console.log(error instanceof Error ? error.message : 'An unknown error occurred')
-      }
-    }
-
-    async function clearCartRequest() {
-      try {
-        const response = await fetch('http://localhost:8080/api/Cart/clear', {
-          method: 'POST',
-          body: JSON.stringify({
-            "userId": sessionStorage.getItem('user_id')
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-      if (!response.ok) {
-        throw new Error(`Failed to add to shopping cart: ${response.status} ${response.statusText}`);
-      }
-
-      } catch (error) {
-        console.log(error instanceof Error ? error.message : 'An unknown error occurred')
-      }
+      //location.reload()
     }
 
     async function onSubmit() {
-      
+      await discountRequest().then(disc => {
+        if (disc)
+        {
+          udisc = disc
+        }
+      })
+
+      discountCode = ""
+      total = calcTotal()
     }
 
   </script>

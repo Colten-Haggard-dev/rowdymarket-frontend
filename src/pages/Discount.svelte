@@ -79,7 +79,7 @@
     <AdminSideNav />
   </div>
 
-  <form class="create-container" on:submit|preventDefault={onSubmit}>
+  <form class="create-container" on:submit={onSubmit}>
     <div class="input-group">
       <label for="code">Discount Code:</label>
       <input type="code" id="code" bind:value={code} required>

@@ -46,6 +46,8 @@
     {
       sessionStorage.setItem('cart', currItem.itemId.toString())
     }
+
+    location.href = "/browse"
   }
 
   let currItem: Item

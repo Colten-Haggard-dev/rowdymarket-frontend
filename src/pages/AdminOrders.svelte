@@ -4,11 +4,11 @@
   import { onMount } from "svelte";
 
   let aOrders: Order[] = [];
-  let sort: string = "price_desc"
+  let sort: string = "date"
 
-  async function fetchOrders(): Promise<Order[] | undefined> {
+  async function fetchOrders() {
     try {
-      const url = "http://localhost:8080/api/Oders?sortBy=" + sort
+      const url = "http://localhost:8080/api/Oders"// + sort
       console.log(url)
       const response = await fetch(url, {
         method: "GET",
@@ -41,7 +41,6 @@
   }
 
   onMount(async () => {
-		// Example of how to use the fetchItems function
     await fetchOrders().then(orders => {
       if (orders) {
         aOrders = orders
@@ -63,8 +62,6 @@
     <input type="radio" id="price_asc" bind:group={sort} on:change={onChange} value="price_asc">
     <label for="price_desc">Price Descending:</label>
     <input type="radio" id="price_desc" bind:group={sort} on:change={onChange} value="price_desc">
-    <label for="username">Username:</label>
-    <input type="radio" id="username" bind:group={sort} on:change={onChange} value="username">
     <label for="date">Date:</label>
     <input type="radio" id="date" bind:group={sort} on:change={onChange} value="date">
 

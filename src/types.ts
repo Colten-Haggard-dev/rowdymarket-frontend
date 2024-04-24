@@ -26,12 +26,12 @@ interface CartItem {
 
 interface Order {
   orderId: number;
-  discountCode: string;
-  orderDate: string;
-  orderStatus: string;
-  taxAmount: number;
-  totalAmount: number;
   userId: number;
+  orderDate: string;
+  totalAmount: number;
+  taxAmount: number;
+  discountCode: string;
+  orderStatus: string;
 }
 
 interface Discount {
@@ -39,4 +39,5 @@ interface Discount {
   code: string;
   discountValue: number;
   experiationDate: string;
+  isPercent: boolean
 }
