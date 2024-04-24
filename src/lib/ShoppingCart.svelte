@@ -124,7 +124,8 @@
     async function cartAddRequest(item: Item) {
       try {
         const url = 'http://localhost:8080/api/Cart/add?userId=' + sessionStorage.getItem('user_id') + "&itemId=" + item.itemId + "&quantity=" + item.quantityAvailable + "&discountPercent=" + discount
-        const response = await fetch( url, {
+        console.log(url)
+        const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
