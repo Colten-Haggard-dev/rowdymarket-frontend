@@ -1,8 +1,9 @@
 <script lang="ts">
   import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
+  import OrderListing from "../lib/OrderListing.svelte";
   import { onMount } from "svelte";
-  
+
   let aOrders: Order[] = [];
   let sort: string = "price_desc"
 
@@ -70,8 +71,8 @@
 
   </div>
   <div class="orders">
-    {#each aOrders as order, o}
-      <Order id={aOrders.id} name={aOrders.userId} price={aOrders.price}/>
+    {#each aOrders as order}
+      <OrderListing orderId={order.id} userId={order.userId} orderDate={order.orderDate} orderStatus={order.orderStatus} totalPrice={order.price}/>
     {/each}
   </div>
 </main>
