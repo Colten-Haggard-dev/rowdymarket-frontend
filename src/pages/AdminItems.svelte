@@ -1,13 +1,14 @@
 <script lang="ts">
   import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
+  import Listing from "../lib/Listing.svelte";
   import { onMount } from "svelte";
   let aItems: Item[] = [];
   let dir: string = "asc"
 
   async function fetchItems(): Promise<Item[] | undefined> {
     try {
-      const url = "http://localhost:8080/api/Item?sort=" + dir
+      const url = "http://localhost:8080/api/items" + dir
       console.log(url)
       const response = await fetch(url, {
         method: "GET",
@@ -55,7 +56,9 @@
   <div class="sideNav">
     <AdminSideNav />
   </div>
-  <div>This is the user view and modify page for admins</div>
+  {#each aItems as item}
+    <Listing price={item.price} name={item.name} quantity={item.quantityAvailable} id={item.itemId} image_dir={item.imageUrl}/>
+  {/each}
 </main>
 
 <style>

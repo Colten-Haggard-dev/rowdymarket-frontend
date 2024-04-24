@@ -20,12 +20,15 @@
 </main>
 
 <style>
-.adminButton{
-  
-  color: black;
-  width: 100%;
-  height: 25%;
-  background-color: white;
-  border-radius: 0%;
-}
+
+.adminButton {
+    min-width: 2vw;
+    max-width: 10vw;
+    border-radius: 0%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+    color: black;
+    overflow-y: scroll;
+  }
 </style>
