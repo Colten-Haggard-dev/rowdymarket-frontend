@@ -30,13 +30,17 @@
 
     const discount = 0;
     const taxRate = 0.0825; // Tax rate of 8.25%
-    let total = 0
+    let total: number = 0
+    let subtotal: number = 0
+    let tax: number = 0
 
     let cart: Item[] = []
 
     let cart_ids = sessionStorage.getItem('cart')?.split(',');
 
     onMount(async () => {
+      await clearCartRequest().then()
+
       if (cart_ids == null)
         return
 
@@ -51,11 +55,12 @@
           }
         })
       }
-
+      subtotal = calcSubTotal()
+      tax = calcTax()
       total = calcTotal()
     });
 
-    function calcTotal() {
+    function calcSubTotal() {
       let sum: number = cart[0].price;
 
       for (let i: number = 1; i < cart.length; ++i)
@@ -63,7 +68,15 @@
         sum += cart[i].price * cart[i].quantityAvailable;
       }
 
-      return sum + sum * taxRate
+      return sum
+    }
+
+    function calcTax() {
+      return calcSubTotal() * taxRate
+    }
+
+    function calcTotal() {
+      return calcSubTotal() + calcTax()
     }
 
     function removeItem(id: number)
@@ -123,10 +136,36 @@
 
     async function cartAddRequest(item: Item) {
       try {
-        const url = 'http://localhost:8080/api/Cart/add?userId=' + sessionStorage.getItem('user_id') + "&itemId=" + item.itemId + "&quantity=" + item.quantityAvailable + "&discountPercent=" + discount
-        console.log(url)
-        const response = await fetch(url, {
+        const response = await fetch('http://localhost:8080/api/Cart/add', {
           method: 'POST',
+          body: JSON.stringify({
+            "userId": sessionStorage.getItem('user_id'),
+            "itemId": item.itemId,
+            "shoppingCart": cart_ids,
+            "quantity": item.quantityAvailable,
+            "discount": discount
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+      if (!response.ok) {
+        throw new Error(`Failed to add to shopping cart: ${response.status} ${response.statusText}`);
+      }
+
+      } catch (error) {
+        console.log(error instanceof Error ? error.message : 'An unknown error occurred')
+      }
+    }
+
+    async function clearCartRequest() {
+      try {
+        const response = await fetch('http://localhost:8080/api/Cart/clear', {
+          method: 'POST',
+          body: JSON.stringify({
+            "userId": sessionStorage.getItem('user_id')
+          }),
           headers: {
             'Content-Type': 'application/json'
           }
@@ -142,10 +181,8 @@
     }
 
   </script>
-  
-  <style>
-  </style>
-  
+
+<main class="scroll">
   <div>
     <Topnav />
     {#if cart_ids}
@@ -155,12 +192,35 @@
         </button>
       {/each}
 
+      <div class="total">
+        <ul>
+          <h2 class="text">
+            Subtotal = ${subtotal.toFixed(2)}<br>
+            Tax = ${tax.toFixed(2)}
+          </h2>
+  
+          <h1 class="text">Total = ${total.toFixed(2)}</h1>
+        </ul>
+      </div>
       
-
-      <br>Total = ${total.toFixed(2)} (including tax)<br>
       <button on:click={checkout}>Checkout</button>
     {:else}
       <h1>No items in cart...</h1>
     {/if}
-    
   </div>
+</main>
+
+<style>
+  .scroll {
+    margin-top: 10%;
+    overflow-y: scroll;
+    overflow: hidden;
+  }
+
+  .total {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #495A70;
+    padding: 20px;
+  }
+</style>

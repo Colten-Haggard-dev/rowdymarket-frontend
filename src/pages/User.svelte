@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Topnav from "../lib/Topnav.svelte";
-  import UserSettings from "../lib/UserSettings.svelte"
 
   let image_dir: string = "/UTSA-Roadrunners-Logo.png"
   let user_name: string = "Rowdy"
