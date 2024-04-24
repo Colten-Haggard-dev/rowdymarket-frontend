@@ -1,8 +1,8 @@
 <script lang="ts">
   export let orderId: number = 0
-  export let userId: string = ""
-  export let itemsIds: number[] = [1,2]
-  export let quantities: number[] = [1,2]
+  export let userId: number = 0
+  export let orderDate: string = ""
+  export let orderStatus: string = ""
   export let totalPrice: number = 9.99
 
 function click(){
@@ -16,9 +16,9 @@ function click(){
     <p>
       {userId}<br>
       Order ID: {orderId}<br>
-      Items: {itemsIds}<br>
-      Price: {"$"}{totalPrice}<br>
-      Quanity: {quantities}<br>
+      Date: {orderDate}<br>
+      Status: {orderStatus}<br>
+      Price: ${totalPrice}<br>
     </p>
   </button>
 </main>
