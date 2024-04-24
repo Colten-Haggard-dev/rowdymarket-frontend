@@ -1,10 +1,11 @@
 <script lang="ts">
-  import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
+
+  sessionStorage.setItem("is_admin", "true")
 </script>
 
 <main>
-  <Topnav />
+  <!-- <Topnav /> -->
   <div class = "sideNav">
     <AdminSideNav />
   </div>
@@ -17,7 +18,8 @@
   .sideNav {
     position: fixed;
     left: 0;
-    top: 9.6%;
+    top: 0;
+    bottom: 0;
     display: flex;
     flex-wrap: flex;
     background-color: #0C2340;

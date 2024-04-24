@@ -1,8 +1,11 @@
 <script lang="ts">
-  import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
   import DiscountListing from "../lib/DiscountListing.svelte"
   import { onMount } from "svelte";
+
+  let code: string = ""
+  let discount_value: number = 0
+  let is_percent: boolean = true
 
   let aDiscounts: Discount[] = [];
 
@@ -31,6 +34,34 @@
     }
   }
 
+  async function createDiscount()
+  {
+    try {
+      const response = await fetch('http://localhost:8080/api/discounts', {
+        method: 'POST',
+        body: JSON.stringify({
+          "code": code,
+          "discountValue": discount_value,
+          "isPercentage": is_percent,
+          "expiryDate": new Date(Date.now()).toJSON().toString()
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to create user: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : 'An unknown error occurred')
+    }
+  }
+
+  async function onSubmit() {
+    console.log("submit")
+    await createDiscount().then()
+  }
+
   onMount(async () => {
 		// Example of how to use the fetchItems function
     await fetchDiscounts().then(discounts => {
@@ -43,11 +74,27 @@
 </script>
 
 <main>
-  <Topnav />
+  <!-- <Topnav /> -->
   <div class="sideNav">
     <AdminSideNav />
   </div>
-  <div class="discounts">
+
+  <form class="create-container" on:submit|preventDefault={onSubmit}>
+    <div class="input-group">
+      <label for="code">Discount Code:</label>
+      <input type="code" id="code" bind:value={code} required>
+    </div>
+    <div class="input-group">
+      <label for="value">Discount Value:</label>
+      <input type="value" id="value" bind:value={discount_value} required>
+    </div>
+
+    <button>
+      Create Discount
+    </button>
+  </form><br>
+
+  <div class="discounts" >
     {#each aDiscounts as discount}
       <DiscountListing discountId={discount.discountId} code={discount.code} discountValue={discount.discountValue} expirationDate={discount.experiationDate}/>
     {/each}
@@ -59,7 +106,8 @@
   .sideNav {
     position: fixed;
     left: 0;
-    top: 9.6%;
+    top: 0;
+    bottom: 0;
     display: flex;
     flex-wrap: flex;
     background-color: #0C2340;

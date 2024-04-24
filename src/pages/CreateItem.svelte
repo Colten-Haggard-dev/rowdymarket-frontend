@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Topnav from "../lib/Topnav.svelte";
+  import Topnav from "../lib/Topnav.svelte";
 
 
   let name: string = "item"

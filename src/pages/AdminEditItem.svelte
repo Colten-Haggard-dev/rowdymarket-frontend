@@ -1,16 +1,16 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
   
   let name: string = '';
   let description: string = '';
   let price: number = 0;
   let quantityAvailable: number = 0;
+  let image_dir: string = "/pizza.png"
 
-  async function fetchUser() {
+  async function fetchItem() {
     try {
-      const url = "http://localhost:8080/api/items/" + sessionStorage.getItem('item_id')
+      const url = "http://localhost:8080/api/Items/" + sessionStorage.getItem('item_id')
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -33,16 +33,17 @@
     }
   }
 
-  async function updateUser() {
+  async function updateItem() {
     try {
-      const url = 'http://localhost:8080/api/items/' + sessionStorage.getItem('item_id')
+      const url = 'http://localhost:8080/api/Items/' + sessionStorage.getItem('item_id')
       const response = await fetch(url, {
         method: 'PUT',
         body: JSON.stringify({
-          "Name": name,
-          "Description": description,
-          "Price": price,
-          "Quantity": quantityAvailable
+          "name": name,
+          "description": description,
+          "price": price,
+          "quantityAvailable": quantityAvailable,
+          "imageUrl": image_dir
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -57,19 +58,20 @@
   }
 
   async function handleSubmit() {
-    await updateUser().then()
+    await updateItem().then()
 
     location.href = "/adminitems"
   }
 
   onMount(async () => {
-    await fetchUser().then(item => {
+    await fetchItem().then(item => {
       if (item)
       {
         name = item.name
         description = item.description
         price = item.price
         quantityAvailable = item.quantityAvailable
+        image_dir = item.imageUrl
       }
     })
   })
@@ -77,7 +79,7 @@
 </script>
 
 <main>
-  <Topnav />
+  <!-- <Topnav /> -->
   <div class = "sideNav">
     <AdminSideNav />
   </div>
@@ -129,7 +131,8 @@
   .sideNav {
     position: fixed;
     left: 0;
-    top: 9.6%;
+    top: 0;
+    bottom: 0;
     display: flex;
     flex-wrap: flex;
     background-color: #0C2340;

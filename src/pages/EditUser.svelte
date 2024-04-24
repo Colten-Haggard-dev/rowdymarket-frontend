@@ -80,10 +80,14 @@
 </script>
 
 <main>
-  <Topnav />
-  <div class = "sideNav">
-    <AdminSideNav />
-  </div>
+  {#if sessionStorage.getItem('is_admin')}
+    <div class = "sideNav">
+      <AdminSideNav />
+    </div>
+  {:else}
+    <Topnav />
+  {/if}
+  
 
   <form class="create-container">
     <div class="input-group">
@@ -134,10 +138,12 @@
     padding: 8px;
     margin-top: 5px;
   }
+
   .sideNav {
     position: fixed;
     left: 0;
-    top: 9.6%;
+    top: 0;
+    bottom: 0;
     display: flex;
     flex-wrap: flex;
     background-color: #0C2340;

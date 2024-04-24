@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
   import UserListing from "../lib/UserListing.svelte";
   import { onMount } from "svelte";
@@ -47,7 +46,7 @@
 </script>
 
 <main>
-  <Topnav />
+  <!-- <Topnav /> -->
   <div class="sideNav">
     <AdminSideNav />
   </div>
@@ -65,13 +64,15 @@
   .sideNav {
     position: fixed;
     left: 0;
-    top: 9.6%;
+    top: 0;
+    bottom: 0;
     display: flex;
     flex-wrap: flex;
     background-color: #0C2340;
     width: 10%;
     min-height: 100%
   }
+  
   .listings {
     min-width: 66vw;
     max-width: 67vw;

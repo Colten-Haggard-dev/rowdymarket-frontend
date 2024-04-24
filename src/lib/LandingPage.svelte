@@ -1,5 +1,5 @@
 <script lang="ts">
-
+  sessionStorage.removeItem('is_admin')
 </script>
 
 <main>

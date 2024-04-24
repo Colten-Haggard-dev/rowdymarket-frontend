@@ -1,6 +1,7 @@
 <script lang="ts">
   import Listing from "../lib/Listing.svelte"
   import Topnav from "../lib/Topnav.svelte"
+  import AdminSideNav from "../lib/AdminSideNav.svelte";
   import { onMount } from 'svelte'
   
   let bitems: Item[] = []
@@ -55,6 +56,12 @@
     });
   }
 
+  function editItem(id: number) {
+    sessionStorage.setItem('item_id', id.toString())
+
+    location.href = "/adminedititem"
+  }
+
   onMount(async () => {
 		// Example of how to use the fetchItems function
     await fetchItems().then(items => {
@@ -66,7 +73,14 @@
 </script>
 
 <main>
-  <Topnav />
+  {#if sessionStorage.getItem('is_admin')}
+    <div class = "sideNav">
+      <AdminSideNav />
+    </div>
+  {:else}
+    <Topnav />
+  {/if}
+
   <div class="filter">
     <form on:submit|preventDefault={onSubmit}>
       <label for="search">Search:</label>
@@ -91,8 +105,15 @@
 
   </div>
   <div class="listings">
-    {#each bitems as _item, i}
-      <Listing id={bitems[i].itemId} name={bitems[i].name} price={bitems[i].price} quantity={bitems[i].quantityAvailable} image_dir={bitems[i].imageUrl}/>
+    {#each bitems as item}
+      {#if sessionStorage.getItem('is_admin')}
+        <button on:click={() => editItem(item.itemId)}>
+          Edit item
+          <Listing id={item.itemId} name={item.name} price={item.price} quantity={item.quantityAvailable} image_dir={item.imageUrl}/>
+        </button>
+      {:else}
+        <Listing id={item.itemId} name={item.name} price={item.price} quantity={item.quantityAvailable} image_dir={item.imageUrl}/>
+      {/if}
     {/each}
   </div>
   
@@ -117,5 +138,17 @@
     background-color: #495A70;
     outline: 2px solid blue;
     overflow-y: scroll;
+  }
+
+  .sideNav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-wrap: flex;
+    background-color: #0C2340;
+    width: 10%;
+    min-height: 100%
   }
 </style>

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
   import Listing from "../lib/Listing.svelte";
   import { onMount } from "svelte";
@@ -8,7 +7,7 @@
 
   async function fetchItems(): Promise<Item[] | undefined> {
     try {
-      const url = "http://localhost:8080/api/items" + dir
+      const url = "http://localhost:8080/api/Items" + dir
       console.log(url)
       const response = await fetch(url, {
         method: "GET",
@@ -52,7 +51,7 @@
 </script>
 
 <main>
-  <Topnav />
+  <!-- <Topnav /> -->
   <div class="sideNav">
     <AdminSideNav />
   </div>
@@ -67,7 +66,8 @@
   .sideNav {
     position: fixed;
     left: 0;
-    top: 9.6%;
+    top: 0;
+    bottom: 0;
     display: flex;
     flex-wrap: flex;
     background-color: #0C2340;

@@ -16,6 +16,9 @@
     <a href="http://localhost:5173/adminitems">
       <br><button class="adminButton">Create and Modify Items</button><br>
     </a>
+    <a href="http://localhost:5173/">
+      <br><button class="adminButton">{"<"}-Exit portal-{">"}</button><br>
+    </a>
   </div>
 </main>
 
