@@ -14,7 +14,7 @@ import ItemList from "../lib/ItemList.svelte";
   .sideNav {
     position: fixed;
     left: 0;
-    top: 7.5%;
+    top: 9.6%;
     display: flex;
     flex-wrap: flex;
     background-color: #0C2340;

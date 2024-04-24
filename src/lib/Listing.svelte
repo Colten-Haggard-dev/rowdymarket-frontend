@@ -1,4 +1,5 @@
 <script lang="ts">
+  let symbol: string = "$"
   export let price: number = 10
   export let name: string = "Rowdy balls"
   export let quantity: number = 0
@@ -16,7 +17,7 @@
     <img class="image" src={image_dir} alt="Item" width="100" height="100"/>
     <p>
       {name}<br>
-      Price: ${price}<br>
+      Price: {symbol}{price}<br>
       Quanity: {quantity}<br>
     </p>
   </button>
