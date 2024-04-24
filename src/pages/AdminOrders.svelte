@@ -72,7 +72,7 @@
   </div>
   <div class="orders">
     {#each aOrders as order}
-      <OrderListing orderId={order.orderId} userId={order.userId} orderDate={order.orderDate} orderStatus={order.orderStatus} totalPrice={order.totalAmount}/>
+      <OrderListing orderId={order.orderId} userId={order.userId} orderDate={order.orderDate} orderStatus={order.orderStatus} totalPrice={order.totalAmount} />
     {/each}
   </div>
 </main>

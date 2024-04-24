@@ -2,7 +2,6 @@
   export let userId: number = 0
   export let address: string = ""
   export let email: string = ""
-  export let password: string = ""
   export let phoneNumber: string = ""
   export let userName: string = ""
 
