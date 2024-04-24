@@ -1,6 +1,54 @@
-<script>
+<script lang="ts">
+  import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
-import Topnav from "../lib/Topnav.svelte";
+  import { onMount } from "svelte";
+  let aUsers: User[] = [];
+  let dir: string = "asc"
+  let sort: string = "unsorted"
+
+  async function fetchOrders(): Promise<User[] | undefined> {
+    try {
+      const url = "http://localhost:8080/api/User?sort=" + dir
+      console.log(url)
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const users: User[] = await response.json();
+      console.log("Orders fetched successfully:", users);
+
+      // Here you can manipulate the fetched data
+      return users;
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      return undefined;
+    }
+  }
+
+  async function onChange() {
+    await fetchOrders().then(users => {
+      if (users) {
+        aUsers = users
+      }
+    });
+  }
+
+  onMount(async () => {
+		// Example of how to use the fetchItems function
+    await fetchOrders().then(users => {
+      if (users) {
+        aUsers = users
+      }
+    });
+	});
+
 </script>
 
 <main>

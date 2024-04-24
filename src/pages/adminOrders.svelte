@@ -74,6 +74,11 @@
     <input type="radio" id="desc" bind:group={dir} on:change={onChange} value="desc">
 
   </div>
+  <div class="orders">
+    {#each aOrders as order, o}
+      <Order id={aOrders.id} name={aOrders.userId} price={aOrders.price}/>
+    {/each}
+  </div>
 </main>
 
 <style>
@@ -86,5 +91,15 @@
     background-color: #0C2340;
     width: 10%;
     min-height: 100%
+  }
+
+  .orders {
+    min-width: 66vw;
+    max-width: 67vw;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #495A70;
+    outline: 2px solid blue;
+    overflow-y: scroll;
   }
 </style>
