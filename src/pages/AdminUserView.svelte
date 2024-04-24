@@ -29,6 +29,12 @@
     }
   }
 
+  function editUser(id: number) {
+    sessionStorage.setItem('view_user_id', id.toString())
+
+    location.href = "/adminedituser"
+  }
+
   onMount(async () => {
 		// Example of how to use the fetchItems function
     await fetchUsers().then(users => {
@@ -47,7 +53,10 @@
   </div>
   <div class="listings">
   {#each aUsers as user}
-    <UserListing userId={user.userId} userName={user.username} address={user.address} email={user.email} phoneNumber={user.phone_number} />
+    <button on:click={() => editUser(user.userId)}>
+      Edit user
+      <UserListing userId={user.userId} userName={user.username} address={user.address} email={user.email} phoneNumber={user.phone_number} />
+    </button>
   {/each}
   </div>
 </main>

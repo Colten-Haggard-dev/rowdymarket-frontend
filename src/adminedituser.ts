@@ -1,7 +1,7 @@
 import './app.css'
-import UserListing from './lib/UserListing.svelte'
+import EditUser from './pages/EditUser.svelte'
 
-const app = new UserListing({
+const app = new EditUser({
   target: document.getElementById('app')!,
 })
 

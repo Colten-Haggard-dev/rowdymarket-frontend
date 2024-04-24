@@ -1,45 +1,113 @@
 <script lang="ts">
+    import { onMount } from "svelte";
   import Topnav from "../lib/Topnav.svelte";
   
-  let name: string = "item"
-  let amount: number = 0
-  let price: number = 0
-  let desc: string = "desc"
-  let image_dir: string = "/pizza.png"
+  let email: string = '';
+  let username: string = '';
+  let password: string = '';
+  let address: string = '';
+  let phone: string = '';
+
+  async function fetchUser() {
+    try {
+      const url = "http://localhost:8080/api/Users/" + sessionStorage.getItem('view_user_id')
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const user: User = await response.json();
+      console.log("User fetched successfully:", user);
+
+      // Here you can manipulate the fetched data
+      return user;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return undefined;
+    }
+  }
+
+  async function updateUser() {
+    try {
+      const url = 'http://localhost:8080/api/Users/' + sessionStorage.getItem('view_user_id')
+      const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify({
+          "username": username,
+          "password": password,
+          "email": email,
+          "address": address,
+          "phoneNumber": phone
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to create user: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : 'An unknown error occurred')
+    }
+  }
+
+  async function handleSubmit() {
+    await updateUser().then()
+
+    location.href = "/adminuserview"
+  }
+
+  onMount(async () => {
+    await fetchUser().then(user => {
+      if (user)
+      {
+        email = user.email
+        username = user.username
+        password = user.password
+        address = user.address
+        phone = user.phone_number
+      }
+    })
+  })
 
 </script>
+
 <main>
   <Topnav />
 
   <form class="create-container">
     <div class="input-group">
-      <label for="name">Item name:</label>
-      <input type="name" id="name" bind:value={name} required>
-    </div>
-    <div class="input-group">
-      <label for="desc">Item description:</label>
-      <input type="desc" id="desc" bind:value={desc} required>
-    </div>
-    <div class="input-group">
-      <label for="price">Price:</label>
-      <input type="price" id="price" bind:value={price} required>
-    </div>
-    <div class="input-group">
-      <label for="amount">Amount:</label>
-      <input type="amount" id="amount" bind:value={amount} required>
-    </div>
-    <div class="input-group">
-      <label for="image">Amount:</label>
-      <select id="image" bind:value={image_dir} required>
-        {#each all_images as idir}
-          <option value={idir}>
-            {idir}
-          </option>
-        {/each}
-      </select>
+      <label for="email">Email:</label>
+      <input type="email" id="email" bind:value={email} required>
     </div>
 
-    <button on:click={handleSubmit} type="submit">List item</button>    
+    <div class="input-group">
+      <label for="address">Address:</label>
+      <input type="address" id="address" bind:value={address} required>
+    </div>
+
+    <div class="input-group">
+      <label for="phone">Phone Number:</label>
+      <input type="phone" id="phone" bind:value={phone} required>
+    </div>
+
+    <div class="input-group">
+      <label for="username">Username:</label>
+      <input type="username" id="username" bind:value={username} required>
+    </div>
+
+    <div class="input-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" bind:value={password} required>
+    </div>
+
+    <button on:click={handleSubmit} type="submit">Update user</button>    
   </form>
 </main>
 
