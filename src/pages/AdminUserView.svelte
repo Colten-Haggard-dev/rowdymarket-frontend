@@ -45,9 +45,11 @@
   <div class="sideNav">
     <AdminSideNav />
   </div>
+  <div class="listings">
   {#each aUsers as user}
     <UserListing userId={user.userId} userName={user.username} address={user.address} email={user.email} phoneNumber={user.phone_number} />
   {/each}
+  </div>
 </main>
 
 <style>
@@ -60,6 +62,16 @@
     background-color: #0C2340;
     width: 10%;
     min-height: 100%
+  }
+  .listings {
+    min-width: 66vw;
+    max-width: 67vw;
+    margin-top: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #495A70;
+    outline: 2px solid blue;
+    overflow-y: scroll;
   }
 </style>
   
