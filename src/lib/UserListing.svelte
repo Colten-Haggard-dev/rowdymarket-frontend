@@ -6,7 +6,7 @@
   export let userName: string = ""
 
 function click(){
-  sessionStorage.setUser('orderId', userId.toString())
+  sessionStorage.setUser('view_user_id', userId.toString())
   location.href = "/user"
 }
 </script>
