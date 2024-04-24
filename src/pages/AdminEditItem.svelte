@@ -3,15 +3,14 @@
   import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
   
-  let email: string = '';
-  let username: string = '';
-  let password: string = '';
-  let address: string = '';
-  let phone: string = '';
+  let name: string = '';
+  let description: string = '';
+  let price: number = 0;
+  let quantityAvailable: number = 0;
 
   async function fetchUser() {
     try {
-      const url = "http://localhost:8080/api/Users/" + sessionStorage.getItem('view_user_id')
+      const url = "http://localhost:8080/api/items/" + sessionStorage.getItem('item_id')
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -23,11 +22,11 @@
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const user: User = await response.json();
-      console.log("User fetched successfully:", user);
+      const item: Item = await response.json();
+      console.log("User fetched successfully:", item);
 
       // Here you can manipulate the fetched data
-      return user;
+      return item;
     } catch (error) {
       console.error("Error fetching user:", error);
       return undefined;
@@ -36,15 +35,14 @@
 
   async function updateUser() {
     try {
-      const url = 'http://localhost:8080/api/Users/' + sessionStorage.getItem('view_user_id')
+      const url = 'http://localhost:8080/api/items/' + sessionStorage.getItem('item_id')
       const response = await fetch(url, {
         method: 'PUT',
         body: JSON.stringify({
-          "username": username,
-          "password": password,
-          "email": email,
-          "address": address,
-          "phoneNumber": phone
+          "Name": name,
+          "Description": description,
+          "Price": price,
+          "Quantity": quantityAvailable
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -61,18 +59,17 @@
   async function handleSubmit() {
     await updateUser().then()
 
-    location.href = "/adminuserview"
+    location.href = "/adminitems"
   }
 
   onMount(async () => {
-    await fetchUser().then(user => {
-      if (user)
+    await fetchUser().then(item => {
+      if (item)
       {
-        email = user.email
-        username = user.username
-        password = user.password
-        address = user.address
-        phone = user.phone_number
+        name = item.name
+        description = item.description
+        price = item.price
+        quantityAvailable = item.quantityAvailable
       }
     })
   })
@@ -87,31 +84,26 @@
 
   <form class="create-container">
     <div class="input-group">
-      <label for="email">Email:</label>
-      <input type="email" id="email" bind:value={email} required>
+      <label for="name">Name:</label>
+      <input type="name" id="name" bind:value={name} required>
     </div>
 
     <div class="input-group">
-      <label for="address">Address:</label>
-      <input type="address" id="address" bind:value={address} required>
+      <label for="description">Description:</label>
+      <input type="description" id="description" bind:value={description} required>
     </div>
 
     <div class="input-group">
-      <label for="phone">Phone Number:</label>
-      <input type="phone" id="phone" bind:value={phone} required>
+      <label for="price">Price:</label>
+      <input type="price" id="phone" bind:value={price} required>
     </div>
 
     <div class="input-group">
-      <label for="username">Username:</label>
-      <input type="username" id="username" bind:value={username} required>
+      <label for="quantityAvailable">Quantity:</label>
+      <input type="quantityAvailable" id="quantityAvailable" bind:value={quantityAvailable} required>
     </div>
 
-    <div class="input-group">
-      <label for="password">Password:</label>
-      <input type="password" id="password" bind:value={password} required>
-    </div>
-
-    <button on:click={handleSubmit} type="submit">Update user</button>    
+    <button on:click={handleSubmit} type="submit">Update Item</button>    
   </form>
 </main>
 
