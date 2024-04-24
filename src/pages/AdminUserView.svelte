@@ -5,7 +5,7 @@
   let aUsers: User[] = [];
   let dir: string = "asc"
 
-  async function fetchOrders(): Promise<User[] | undefined> {
+  async function fetchUsers(): Promise<User[] | undefined> {
     try {
       const url = "http://localhost:8080/api/User?sort=" + dir
       console.log(url)
@@ -32,7 +32,7 @@
   }
 
   async function onChange() {
-    await fetchOrders().then(users => {
+    await fetchUsers().then(users => {
       if (users) {
         aUsers = users
       }
@@ -41,7 +41,7 @@
 
   onMount(async () => {
 		// Example of how to use the fetchItems function
-    await fetchOrders().then(users => {
+    await fetchUsers().then(users => {
       if (users) {
         aUsers = users
       }
