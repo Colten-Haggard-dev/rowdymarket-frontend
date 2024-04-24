@@ -33,3 +33,10 @@ interface Order {
   totalAmount: number;
   userId: number;
 }
+
+interface Discount {
+  discountId: number;
+  code: string;
+  discountValue: number;
+  experiationDate: string;
+}
