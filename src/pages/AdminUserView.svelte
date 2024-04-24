@@ -1,15 +1,13 @@
 <script lang="ts">
   import Topnav from "../lib/Topnav.svelte";
   import AdminSideNav from "../lib/AdminSideNav.svelte";
+  import UserListing from "../lib/UserListing.svelte";
   import { onMount } from "svelte";
   let aUsers: User[] = [];
-  let dir: string = "asc"
 
   async function fetchUsers(): Promise<User[] | undefined> {
     try {
-      const url = "http://localhost:8080/api/User?sort=" + dir
-      console.log(url)
-      const response = await fetch(url, {
+      const response = await fetch("http://localhost:8080/api/Users", {
         method: "GET",
         headers: {
           "Accept": "application/json"
@@ -31,14 +29,6 @@
     }
   }
 
-  async function onChange() {
-    await fetchUsers().then(users => {
-      if (users) {
-        aUsers = users
-      }
-    });
-  }
-
   onMount(async () => {
 		// Example of how to use the fetchItems function
     await fetchUsers().then(users => {
@@ -55,7 +45,9 @@
   <div class="sideNav">
     <AdminSideNav />
   </div>
-  <div>This is the user view and modify page for admins</div>
+  {#each aUsers as user}
+    <UserListing userId={user.userId} userName={user.username} address={user.address} email={user.email} phoneNumber={user.phone_number} />
+  {/each}
 </main>
 
 <style>

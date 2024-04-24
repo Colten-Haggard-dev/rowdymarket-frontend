@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import Topnav from "../lib/Topnav.svelte";
   import UserSettings from "../lib/UserSettings.svelte"
 
@@ -35,9 +36,8 @@
     }
   }
 
-  function updateInfo()
-  {
-    fetchUser().then(user => {
+  onMount(async () => {
+    await fetchUser().then(user => {
       if (user)
       {
         user_name = user.username
@@ -45,9 +45,7 @@
         address = user.address
       }
     })
-  }
-
-  updateInfo()
+  })
 
   function createListing()
   {
