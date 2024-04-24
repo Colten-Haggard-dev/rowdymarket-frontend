@@ -32,6 +32,13 @@
     }
   }
 
+  async function onChange() {
+    await fetchOrders().then(orders => {
+      if (orders) {
+        aOrders = orders
+      }
+    });
+  }
 
   onMount(async () => {
 		// Example of how to use the fetchItems function
@@ -49,7 +56,24 @@
   <div class="sideNav">
     <AdminSideNav />
   </div>
-  <div>This is the order and transaction page for admins</div>
+  <div class="filter">
+    <p style="margin-right: 30px;">Sort by: </p>
+
+    <label for="price">Price:</label>
+    <input type="radio" id="price" bind:group={sort} on:change={onChange} value="price">
+    <label for="username">Username:</label>
+    <input type="radio" id="name" bind:group={sort} on:change={onChange} value="name">
+    <label for="date">Date:</label>
+    <input type="radio" id="quant" bind:group={sort} on:change={onChange} value="date">
+
+    <p style="margin-right: 30px;">Sort direction: </p>
+
+    <label for="asc">Ascending:</label>
+    <input type="radio" id="asc" bind:group={dir} on:change={onChange} value="asc">
+    <label for="desc">Descending:</label>
+    <input type="radio" id="desc" bind:group={dir} on:change={onChange} value="desc">
+
+  </div>
 </main>
 
 <style>
