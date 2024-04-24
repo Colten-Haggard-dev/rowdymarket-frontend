@@ -12,7 +12,7 @@
   // Function to fetch items from the API
   async function fetchUser() {
     try {
-      const url = "http://localhost:8080/api/Users/" + sessionStorage.getItem('user_id')
+      const url = "http://localhost:8080/api/Users/" + sessionStorage.getItem('view_user_id')
       const response = await fetch(url, {
         method: "GET",
         headers: {

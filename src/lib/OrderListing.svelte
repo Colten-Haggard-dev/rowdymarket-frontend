@@ -6,7 +6,7 @@
   export let totalPrice: number = 9.99
 
 function click(){
-  sessionStorage.setOrder('orderId', orderId.toString())
+  sessionStorage.setOrder('order_id', orderId.toString())
   location.href = "/order"
 }
 </script>
