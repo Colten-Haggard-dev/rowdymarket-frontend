@@ -6,11 +6,14 @@
   let bitems: Item[] = []
   let dir: string = "asc"
   let sort: string = "price"
+  let search_str: string = ""
+  let search: boolean = false
 
   // Function to fetch items from the API
   async function fetchItems(): Promise<Item[] | undefined> {
     try {
-      const url = "http://localhost:8080/api/Items?sort=" + sort + "&direction=" + dir
+      const url_end = search ? "/search?query=" + search_str : "?sort=" + sort + "&direction=" + dir
+      const url = "http://localhost:8080/api/Items" + url_end
       console.log(url)
       const response = await fetch(url, {
         method: "GET",
@@ -42,6 +45,16 @@
     });
   }
 
+  async function onSubmit() {
+    search = true
+
+    await fetchItems().then(items => {
+      if (items) {
+        bitems = items
+      }
+    });
+  }
+
   onMount(async () => {
 		// Example of how to use the fetchItems function
     await fetchItems().then(items => {
@@ -55,8 +68,10 @@
 <main>
   <Topnav />
   <div class="filter">
-    <label for="search">Search:</label>
-    <input style="min-width: 20vw;" type="text" id="search" name="search" on:submit={()=>console.log("search")} placeholder="Try searching for new stuff..."><br>
+    <form on:submit|preventDefault={onSubmit}>
+      <label for="search">Search:</label>
+      <input style="min-width: 20vw;" type="text" id="search" name="search" bind:value={search_str} placeholder="Try searching for new stuff...">
+    </form><br>
     
     <p style="margin-right: 30px;">Sort by: </p>
 
